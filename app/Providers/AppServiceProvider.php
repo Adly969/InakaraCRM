@@ -1,0 +1,92 @@
+<?php
+
+namespace App\Providers;
+
+use App\Enums\Permission as AppPermission;
+use App\Enums\UserRole;
+use App\Listeners\AuthenticationLogger;
+use App\Models\User;
+use App\Policies\UserPolicy;
+use Carbon\CarbonImmutable;
+use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\ServiceProvider;
+use Illuminate\Validation\Rules\Password;
+
+class AppServiceProvider extends ServiceProvider
+{
+    /**
+     * Register any application services.
+     */
+    public function register(): void
+    {
+        //
+     }
+
+    /**
+     * Bootstrap any application services.
+     */
+    public function boot(): void
+    {
+        $this->configureDefaults();
+        $this->configureAuthorization();
+        $this->configureLogging();
+    }
+
+    /**
+     * Configure default behaviors for production-ready applications.
+     */
+    protected function configureDefaults(): void
+    {
+        Date::use(CarbonImmutable::class);
+
+        DB::prohibitDestructiveCommands(
+            app()->isProduction(),
+        );
+
+        Password::defaults(fn (): ?Password => app()->isProduction()
+            ? Password::min(12)
+                ->mixedCase()
+                ->letters()
+                ->numbers()
+                ->symbols()
+                ->uncompromised()
+            : null,
+        );
+    }
+
+    /**
+     * Configure Gate authorization, policies, and Owner role bypass.
+     */
+    protected function configureAuthorization(): void
+    {
+        // Owner role bypasses all checks
+        Gate::before(function (User $user, string $ability) {
+            if ($user->hasRole(UserRole::Owner->value)) {
+                return true;
+            }
+        });
+
+        // Register policies
+        Gate::policy(User::class, UserPolicy::class);
+
+        // Define foundational gates
+        Gate::define('access-admin-panel', function (User $user) {
+            return $user->hasRole(UserRole::Admin->value) || $user->hasRole(UserRole::Owner->value);
+        });
+
+        Gate::define('view-any-dashboard', function (User $user) {
+            return $user->hasPermissionTo(AppPermission::ViewDashboard->value);
+        });
+    }
+
+    /**
+     * Register event subscribers.
+     */
+    protected function configureLogging(): void
+    {
+        Event::subscribe(AuthenticationLogger::class);
+    }
+}
