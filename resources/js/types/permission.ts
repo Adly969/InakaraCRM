@@ -10,7 +10,7 @@ export const UserRole = {
     Viewer: 'viewer',
 } as const;
 
-export type UserRoleType = typeof UserRole[keyof typeof UserRole];
+export type UserRoleType = (typeof UserRole)[keyof typeof UserRole];
 
 export const Permission = {
     ViewDashboard: 'view-dashboard',
@@ -22,4 +22,4 @@ export const Permission = {
     ManageSettings: 'manage-settings',
 } as const;
 
-export type PermissionType = typeof Permission[keyof typeof Permission];
+export type PermissionType = (typeof Permission)[keyof typeof Permission];

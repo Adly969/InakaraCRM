@@ -5,9 +5,9 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
+import type { ExtendedNavItem } from '@/config/navigation';
 import { useCurrentUrl } from '@/hooks/use-current-url';
 import { usePermission } from '@/hooks/use-permission';
-import type { ExtendedNavItem } from '@/config/navigation';
 
 export function NavMain({ items = [] }: { items: ExtendedNavItem[] }) {
     const { isCurrentUrl } = useCurrentUrl();
@@ -15,7 +15,7 @@ export function NavMain({ items = [] }: { items: ExtendedNavItem[] }) {
 
     // Filter items based on permissions
     const visibleItems = items.filter(
-        (item) => !item.requiredPermission || can(item.requiredPermission)
+        (item) => !item.requiredPermission || can(item.requiredPermission),
     );
 
     return (
@@ -23,10 +23,11 @@ export function NavMain({ items = [] }: { items: ExtendedNavItem[] }) {
             <SidebarMenu>
                 {visibleItems.map((item) => {
                     const active = isCurrentUrl(item.href);
+
                     return (
                         <SidebarMenuItem key={item.title} className="relative">
                             {active && (
-                                <div className="absolute left-[-8px] top-1.5 bottom-1.5 w-1 rounded-r bg-primary transition-all" />
+                                <div className="absolute top-1.5 bottom-1.5 left-[-8px] w-1 rounded-r bg-primary transition-all" />
                             )}
                             <SidebarMenuButton
                                 asChild

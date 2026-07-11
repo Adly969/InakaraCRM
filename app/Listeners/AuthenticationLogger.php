@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Models\AuthenticationLog;
+use App\Models\User;
 use Illuminate\Auth\Events\Failed;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Logout;
@@ -14,23 +15,24 @@ class AuthenticationLogger
     /**
      * Create the event listener.
      */
-    public function __construct(protected Request $request)
-    {
-    }
+    public function __construct(protected Request $request) {}
 
     /**
      * Handle user login events.
      */
     public function handleUserLogin(Login $event): void
     {
-        AuthenticationLog::create([
-            'user_id' => $event->user->id,
-            'event' => 'login',
-            'ip_address' => $this->request->ip(),
-            'user_agent' => $this->request->userAgent(),
-            'email' => $event->user->email,
-            'created_at' => now(),
-        ]);
+        $user = $event->user;
+        if ($user instanceof User) {
+            AuthenticationLog::create([
+                'user_id' => $user->id,
+                'event' => 'login',
+                'ip_address' => $this->request->ip(),
+                'user_agent' => $this->request->userAgent(),
+                'email' => $user->email,
+                'created_at' => now(),
+            ]);
+        }
     }
 
     /**
@@ -38,13 +40,14 @@ class AuthenticationLogger
      */
     public function handleUserLogout(Logout $event): void
     {
-        if ($event->user) {
+        $user = $event->user;
+        if ($user instanceof User) {
             AuthenticationLog::create([
-                'user_id' => $event->user->id,
+                'user_id' => $user->id,
                 'event' => 'logout',
                 'ip_address' => $this->request->ip(),
                 'user_agent' => $this->request->userAgent(),
-                'email' => $event->user->email,
+                'email' => $user->email,
                 'created_at' => now(),
             ]);
         }
@@ -55,8 +58,9 @@ class AuthenticationLogger
      */
     public function handleUserFailed(Failed $event): void
     {
+        $user = $event->user;
         AuthenticationLog::create([
-            'user_id' => $event->user ? $event->user->id : null,
+            'user_id' => ($user instanceof User) ? $user->id : null,
             'event' => 'failed',
             'ip_address' => $this->request->ip(),
             'user_agent' => $this->request->userAgent(),

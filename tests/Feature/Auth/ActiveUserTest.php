@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\UserRole;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,9 +17,9 @@ test('inactive user is logged out and redirected to login', function () {
 test('active user can access the dashboard', function () {
     // Seed roles and permissions first
     $this->artisan('db:seed --class=RoleAndPermissionSeeder');
-    
+
     $user = User::factory()->create();
-    $user->assignRole(\App\Enums\UserRole::Sales->value);
+    $user->assignRole(UserRole::Sales->value);
 
     $response = $this->actingAs($user)->get(route('dashboard'));
 

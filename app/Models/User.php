@@ -41,7 +41,7 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable, HasRoles, SoftDeletes;
+    use HasFactory, HasRoles, Notifiable, SoftDeletes;
 
     /**
      * Get the attributes that should be cast.
@@ -59,6 +59,8 @@ class User extends Authenticatable
 
     /**
      * Get the user who created this user.
+     *
+     * @return BelongsTo<User, $this>
      */
     public function creator(): BelongsTo
     {
@@ -67,6 +69,8 @@ class User extends Authenticatable
 
     /**
      * Get the user who last updated this user.
+     *
+     * @return BelongsTo<User, $this>
      */
     public function updater(): BelongsTo
     {
@@ -75,6 +79,8 @@ class User extends Authenticatable
 
     /**
      * Get the user who deleted this user.
+     *
+     * @return BelongsTo<User, $this>
      */
     public function deleter(): BelongsTo
     {

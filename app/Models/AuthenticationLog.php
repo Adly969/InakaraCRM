@@ -13,7 +13,7 @@ use Illuminate\Support\Carbon;
  * @property string|null $ip_address
  * @property string|null $user_agent
  * @property string|null $email
- * @property array|null $metadata
+ * @property array<string, mixed>|null $metadata
  * @property Carbon|null $created_at
  */
 class AuthenticationLog extends Model
@@ -35,7 +35,7 @@ class AuthenticationLog extends Model
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<string>
+     * @var list<string>
      */
     protected $fillable = [
         'user_id',
@@ -62,6 +62,8 @@ class AuthenticationLog extends Model
 
     /**
      * Get the user that belongs to this authentication log.
+     *
+     * @return BelongsTo<User, $this>
      */
     public function user(): BelongsTo
     {

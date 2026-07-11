@@ -1,6 +1,8 @@
 <?php
 
+use App\Enums\UserRole;
 use App\Models\User;
+use Illuminate\Support\Facades\Route;
 use Inertia\Testing\AssertableInertia as Assert;
 
 test('non-existent url renders custom 404 page', function () {
@@ -16,7 +18,7 @@ test('unauthorized route access renders custom 403 page', function () {
     $this->artisan('db:seed --class=RoleAndPermissionSeeder');
 
     $sales = User::factory()->create();
-    $sales->assignRole(\App\Enums\UserRole::Sales->value);
+    $sales->assignRole(UserRole::Sales->value);
 
     $response = $this->actingAs($sales)->get('/test-403-error-page-trigger');
 
@@ -26,7 +28,7 @@ test('unauthorized route access renders custom 403 page', function () {
 
 // Register the test route dynamically in web.php or handle it
 beforeEach(function () {
-    \Illuminate\Support\Facades\Route::get('/test-403-error-page-trigger', function () {
+    Route::get('/test-403-error-page-trigger', function () {
         abort(403);
     })->middleware('web');
 });

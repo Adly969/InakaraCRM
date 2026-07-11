@@ -8,7 +8,12 @@ type Props = {
     children: React.ReactNode;
 };
 
-export function PermissionGate({ permission, role, fallback = null, children }: Props) {
+export function PermissionGate({
+    permission,
+    role,
+    fallback = null,
+    children,
+}: Props) {
     const { can, hasRole } = usePermission();
 
     if (role && !hasRole(role)) {

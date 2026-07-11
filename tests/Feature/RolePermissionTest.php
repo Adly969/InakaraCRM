@@ -1,9 +1,9 @@
 <?php
 
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
-use App\Enums\UserRole;
 use App\Enums\Permission as AppPermission;
+use App\Enums\UserRole;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 test('roles and permissions are seeded correctly', function () {
     $this->artisan('db:seed --class=RoleAndPermissionSeeder');
@@ -39,7 +39,7 @@ test('non-admin roles only have view-dashboard by default', function () {
     $this->artisan('db:seed --class=RoleAndPermissionSeeder');
 
     $salesRole = Role::findByName(UserRole::Sales->value, 'web');
-    
+
     expect($salesRole->hasPermissionTo(AppPermission::ViewDashboard->value))->toBeTrue();
     expect($salesRole->hasPermissionTo(AppPermission::ViewSettings->value))->toBeFalse();
     expect($salesRole->hasPermissionTo(AppPermission::ViewUsers->value))->toBeFalse();

@@ -1,7 +1,7 @@
 <?php
 
-use App\Models\User;
 use App\Enums\UserRole;
+use App\Models\User;
 
 beforeEach(function () {
     $this->artisan('db:seed --class=RoleAndPermissionSeeder');

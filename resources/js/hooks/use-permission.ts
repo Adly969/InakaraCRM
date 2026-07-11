@@ -10,7 +10,7 @@ export function usePermission() {
         if (!user) {
             return false;
         }
-        
+
         // Owner role bypasses all checks on the frontend too
         if (user.roles.includes('owner')) {
             return true;
@@ -23,6 +23,7 @@ export function usePermission() {
         if (!user) {
             return false;
         }
+
         return user.roles.includes(role);
     };
 

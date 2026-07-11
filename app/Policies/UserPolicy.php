@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Enums\Permission as AppPermission;
+use App\Enums\UserRole;
 use App\Models\User;
 
 class UserPolicy
@@ -41,7 +42,7 @@ class UserPolicy
         }
 
         // Cannot edit Owner unless the acting user is also an Owner
-        if ($model->hasRole(\App\Enums\UserRole::Owner->value) && ! $user->hasRole(\App\Enums\UserRole::Owner->value)) {
+        if ($model->hasRole(UserRole::Owner->value) && ! $user->hasRole(UserRole::Owner->value)) {
             return false;
         }
 
@@ -63,7 +64,7 @@ class UserPolicy
         }
 
         // Cannot delete Owner
-        if ($model->hasRole(\App\Enums\UserRole::Owner->value)) {
+        if ($model->hasRole(UserRole::Owner->value)) {
             return false;
         }
 

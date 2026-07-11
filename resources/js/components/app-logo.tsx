@@ -7,10 +7,10 @@ export default function AppLogo() {
                 <AppLogoIcon className="size-5 fill-current text-white" />
             </div>
             <div className="grid flex-1 text-left">
-                <span className="truncate leading-none font-bold text-base text-foreground">
+                <span className="truncate text-base leading-none font-bold text-foreground">
                     INAKARA
                 </span>
-                <span className="truncate text-xs text-muted-foreground leading-tight mt-0.5">
+                <span className="mt-0.5 truncate text-xs leading-tight text-muted-foreground">
                     Enterprise CRM
                 </span>
             </div>

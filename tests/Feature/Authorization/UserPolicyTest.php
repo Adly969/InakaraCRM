@@ -1,8 +1,7 @@
 <?php
 
-use App\Models\User;
 use App\Enums\UserRole;
-use App\Enums\Permission as AppPermission;
+use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 
 beforeEach(function () {

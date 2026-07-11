@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\EnsureUserIsActive;
 use App\Http\Middleware\HandleAppearance;
 use App\Http\Middleware\HandleInertiaRequests;
 use Illuminate\Foundation\Application;
@@ -7,6 +8,7 @@ use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -20,7 +22,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [
             HandleAppearance::class,
             HandleInertiaRequests::class,
-            \App\Http\Middleware\EnsureUserIsActive::class,
+            EnsureUserIsActive::class,
             AddLinkHeadersForPreloadedAssets::class,
         ]);
     })
@@ -39,11 +41,11 @@ return Application::configure(basePath: dirname(__DIR__))
                     default => 'errors/404',
                 };
 
-                return \Inertia\Inertia::render($page, [
+                return Inertia::render($page, [
                     'status' => $status,
                 ])
-                ->toResponse($request)
-                ->setStatusCode($status);
+                    ->toResponse($request)
+                    ->setStatusCode($status);
             }
 
             return $response;

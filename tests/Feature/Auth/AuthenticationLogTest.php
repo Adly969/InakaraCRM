@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\User;
-use App\Models\AuthenticationLog;
 use Illuminate\Support\Facades\Hash;
 
 test('successful login creates a login log entry', function () {
