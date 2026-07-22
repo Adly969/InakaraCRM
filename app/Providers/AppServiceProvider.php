@@ -5,8 +5,14 @@ namespace App\Providers;
 use App\Enums\Permission as AppPermission;
 use App\Enums\UserRole;
 use App\Listeners\AuthenticationLogger;
+use App\Models\Customer;
+use App\Models\Lead;
 use App\Models\User;
+use App\Policies\CustomerPolicy;
+use App\Policies\LeadPolicy;
 use App\Policies\UserPolicy;
+use App\Repositories\FinancialEventRepository;
+use App\Repositories\FinancialEventRepositoryInterface;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
@@ -22,7 +28,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(
+            FinancialEventRepositoryInterface::class,
+            FinancialEventRepository::class
+        );
     }
 
     /**
@@ -71,6 +80,8 @@ class AppServiceProvider extends ServiceProvider
 
         // Register policies
         Gate::policy(User::class, UserPolicy::class);
+        Gate::policy(Lead::class, LeadPolicy::class);
+        Gate::policy(Customer::class, CustomerPolicy::class);
 
         // Define foundational gates
         Gate::define('access-admin-panel', function (User $user) {

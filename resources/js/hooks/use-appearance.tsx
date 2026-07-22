@@ -41,6 +41,31 @@ const isDarkMode = (appearance: Appearance): boolean => {
     return appearance === 'dark' || (appearance === 'system' && prefersDark());
 };
 
+const applyPrimaryColor = (color: string | null): void => {
+    if (typeof document === 'undefined') {
+        return;
+    }
+
+    const root = document.documentElement;
+    const isDark = root.classList.contains('dark');
+
+    // Color definitions corresponding to Blue, Indigo, Slate, Emerald, Custom
+    let primary = isDark ? 'oklch(0.65 0.15 260)' : 'oklch(0.6 0.17 260)'; // Blue
+
+    if (color === 'indigo') {
+        primary = isDark ? 'oklch(0.55 0.2 280)' : 'oklch(0.5 0.2 280)';
+    } else if (color === 'slate') {
+        primary = isDark ? 'oklch(0.5 0.05 240)' : 'oklch(0.45 0.05 240)';
+    } else if (color === 'emerald') {
+        primary = isDark ? 'oklch(0.55 0.15 150)' : 'oklch(0.6 0.15 150)';
+    } else if (color === 'custom') {
+        primary = isDark ? 'oklch(0.55 0.25 20)' : 'oklch(0.6 0.25 20)'; // Warm Red/Orange
+    }
+
+    root.style.setProperty('--primary', primary);
+    root.style.setProperty('--sidebar-primary', primary);
+};
+
 const applyTheme = (appearance: Appearance): void => {
     if (typeof document === 'undefined') {
         return;
@@ -50,6 +75,10 @@ const applyTheme = (appearance: Appearance): void => {
 
     document.documentElement.classList.toggle('dark', isDark);
     document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+
+    // Apply primary color variable updates on theme changes
+    const storedColor = localStorage.getItem('primary_color');
+    applyPrimaryColor(storedColor);
 };
 
 const subscribe = (callback: () => void) => {

@@ -20,6 +20,14 @@ export const Permission = {
     DeleteUsers: 'delete-users',
     ViewSettings: 'view-settings',
     ManageSettings: 'manage-settings',
+    ViewLeads: 'view-leads',
+    CreateLeads: 'create-leads',
+    EditLeads: 'edit-leads',
+    DeleteLeads: 'delete-leads',
+    ViewCustomers: 'view-customers',
+    CreateCustomers: 'create-customers',
+    EditCustomers: 'edit-customers',
+    DeleteCustomers: 'delete-customers',
 } as const;
 
 export type PermissionType = (typeof Permission)[keyof typeof Permission];

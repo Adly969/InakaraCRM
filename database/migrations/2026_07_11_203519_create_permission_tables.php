@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        $teams = config('permission.teams');
+        $teams = false; // Force false during initial migration, team columns are added in later migration
         $tableNames = config('permission.table_names');
         $columnNames = config('permission.column_names');
         $pivotRole = $columnNames['role_pivot_key'] ?? 'role_id';

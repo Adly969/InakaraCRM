@@ -69,7 +69,15 @@ function SidebarProvider({
 
   // This is the internal state of the sidebar.
   // We use openProp and setOpenProp for control from outside the component.
-  const [_open, _setOpen] = React.useState(defaultOpen)
+  const [_open, _setOpen] = React.useState(() => {
+    if (typeof window !== "undefined") {
+      const storedSidebar = localStorage.getItem("sidebar_style");
+      if (storedSidebar === "compact") {
+        return false;
+      }
+    }
+    return defaultOpen;
+  })
   const open = openProp ?? _open
   const setOpen = React.useCallback(
     (value: boolean | ((value: boolean) => boolean)) => {
@@ -103,8 +111,21 @@ function SidebarProvider({
       }
     }
 
+    const handleStyleChange = () => {
+      const style = localStorage.getItem("sidebar_style");
+      if (style === "compact") {
+        _setOpen(false);
+      } else if (style === "standard") {
+        _setOpen(true);
+      }
+    };
+
     window.addEventListener("keydown", handleKeyDown)
-    return () => window.removeEventListener("keydown", handleKeyDown)
+    window.addEventListener("sidebar-style-changed", handleStyleChange)
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown)
+      window.removeEventListener("sidebar-style-changed", handleStyleChange)
+    }
   }, [toggleSidebar])
 
   // We add a state so that we can do data-state="expanded" or "collapsed".
@@ -225,8 +246,8 @@ function Sidebar({
         className={cn(
           "fixed inset-y-0 z-10 hidden h-svh w-(--sidebar-width) transition-[left,right,width] duration-200 ease-linear md:flex",
           side === "left"
-            ? "left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)]"
-            : "right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]",
+            ? "left-0 group-data-[collapsible=offcanvas]:-left-(--sidebar-width)"
+            : "right-0 group-data-[collapsible=offcanvas]:-right-(--sidebar-width)",
           // Adjust the padding for floating and inset variants.
           variant === "floating" || variant === "inset"
             ? "p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(4))+2px)]"

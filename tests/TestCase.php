@@ -2,9 +2,13 @@
 
 namespace Tests;
 
+use App\Models\User;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Laravel\Fortify\Features;
 
+/**
+ * @property User|null $owner
+ */
 abstract class TestCase extends BaseTestCase
 {
     protected function skipUnlessFortifyHas(string $feature, ?string $message = null): void

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Traits\HasTenantIsolation;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
@@ -32,16 +33,18 @@ use Spatie\Permission\Traits\HasRoles;
  * @property int|null $created_by
  * @property int|null $updated_by
  * @property int|null $deleted_by
+ * @property string|null $title
+ * @property string|null $bio
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
  */
-#[Fillable(['name', 'email', 'phone', 'avatar', 'password', 'is_active', 'company_id', 'branch_id', 'created_by', 'updated_by', 'deleted_by'])]
+#[Fillable(['tenant_id', 'name', 'email', 'phone', 'avatar', 'password', 'is_active', 'company_id', 'branch_id', 'created_by', 'updated_by', 'deleted_by', 'title', 'bio'])]
 #[Hidden(['password', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token'])]
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, HasRoles, Notifiable, SoftDeletes;
+    use HasFactory, HasRoles, HasTenantIsolation, Notifiable, SoftDeletes;
 
     /**
      * Get the attributes that should be cast.
@@ -78,12 +81,12 @@ class User extends Authenticatable
     }
 
     /**
-     * Get the user who deleted this user.
+     * Get the tenant that this user belongs to.
      *
-     * @return BelongsTo<User, $this>
+     * @return BelongsTo<Tenant, $this>
      */
-    public function deleter(): BelongsTo
+    public function tenant(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'deleted_by');
+        return $this->belongsTo(Tenant::class, 'tenant_id');
     }
 }

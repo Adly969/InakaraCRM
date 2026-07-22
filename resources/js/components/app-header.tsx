@@ -25,7 +25,7 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
 
     return (
         <>
-            <div className="border-b border-sidebar-border/80 bg-background">
+            <div className="sticky top-0 z-20 border-b border-sidebar-border/80 bg-background/95 backdrop-blur-md">
                 <div className="mx-auto flex h-16 items-center px-4 md:max-w-7xl">
                     <Link
                         href={dashboard()}

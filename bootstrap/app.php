@@ -1,8 +1,12 @@
 <?php
 
+use App\Http\Middleware\AutoLoginDevUser;
+use App\Http\Middleware\CheckFeatureFlag;
+use App\Http\Middleware\EnsureSubscriptionActive;
 use App\Http\Middleware\EnsureUserIsActive;
 use App\Http\Middleware\HandleAppearance;
 use App\Http\Middleware\HandleInertiaRequests;
+use App\Http\Middleware\ResolveTenant;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -20,10 +24,17 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->encryptCookies(except: ['appearance', 'sidebar_state']);
 
         $middleware->web(append: [
+            AutoLoginDevUser::class,
             HandleAppearance::class,
+            ResolveTenant::class,
+            EnsureSubscriptionActive::class,
             HandleInertiaRequests::class,
             EnsureUserIsActive::class,
             AddLinkHeadersForPreloadedAssets::class,
+        ]);
+
+        $middleware->alias([
+            'feature' => CheckFeatureFlag::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
