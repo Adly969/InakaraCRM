@@ -5,6 +5,7 @@ import { usePermission } from '@/hooks/use-permission';
 import { index as indexCustomersRoute, edit as editCustomerRoute } from '@/routes/customers';
 import type { Customer } from '@/types';
 import { ArrowLeft, Pencil } from 'lucide-react';
+import { CrmTimeline } from '@/components/crm/crm-timeline';
 
 interface Props {
     customer: Customer;
@@ -99,6 +100,13 @@ export default function CustomerShow({ customer }: Props) {
                                     <span className="text-sm text-neutral-900 dark:text-neutral-200 whitespace-pre-wrap">{customer.notes}</span>
                                 </div>
                             )}
+                        </CardContent>
+                    </Card>
+
+                    {/* CRM Operational Timeline */}
+                    <Card className="md:col-span-2 border-neutral-200/80 dark:border-neutral-800/80">
+                        <CardContent className="p-6">
+                            <CrmTimeline entityType="customer" entityId={customer.id} />
                         </CardContent>
                     </Card>
 

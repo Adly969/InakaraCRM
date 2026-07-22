@@ -3,7 +3,13 @@
 use App\Http\Controllers\Api\v1\CustomerApiController;
 use App\Http\Controllers\Api\v1\LeadApiController;
 use App\Http\Controllers\CollectionActivityController;
+use App\Http\Controllers\CRM\CrmActivityController;
+use App\Http\Controllers\CRM\CrmCalendarController;
+use App\Http\Controllers\CRM\CrmDocumentController;
+use App\Http\Controllers\CRM\CrmTaskController;
+use App\Http\Controllers\CRM\CrmTimelineController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DeliveryConfirmationController;
 use App\Http\Controllers\DeliveryOrderController;
 use App\Http\Controllers\FinancialEventController;
@@ -40,7 +46,7 @@ Route::get('subscription-inactive', function () {
 })->name('subscription.inactive');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('dashboard', \App\Http\Controllers\DashboardController::class)->name('dashboard');
+    Route::get('dashboard', DashboardController::class)->name('dashboard');
 
     Route::put('leads/{lead}/status', [LeadController::class, 'changeStatus'])->name('leads.status.update');
     Route::post('leads/{lead}/qualify', [LeadWorkflowController::class, 'qualify'])->name('leads.qualify');
@@ -142,13 +148,30 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('api/v1/customers/{id}/activities', [CustomerApiController::class, 'logActivity'])->name('api.customers.activities.store');
     Route::inertia('support', 'support/index')->name('support');
 
+    // CRM Operational Suite Routes (Sprint 21)
+    Route::post('crm/activities/{activity}/complete', [CrmActivityController::class, 'complete'])->name('crm.activities.complete');
+    Route::post('crm/activities/{activity}/comments', [CrmActivityController::class, 'storeComment'])->name('crm.activities.comments.store');
+    Route::post('crm/activities/{activity}/attachments', [CrmActivityController::class, 'storeAttachment'])->name('crm.activities.attachments.store');
+    Route::resource('crm/activities', CrmActivityController::class)->names('crm.activities');
+
+    Route::patch('crm/tasks/{task}/status', [CrmTaskController::class, 'toggleStatus'])->name('crm.tasks.status');
+    Route::patch('crm/tasks/checklists/{checklist}', [CrmTaskController::class, 'toggleChecklist'])->name('crm.tasks.checklists.toggle');
+    Route::resource('crm/tasks', CrmTaskController::class)->names('crm.tasks');
+
+    Route::get('crm/calendar/events', [CrmCalendarController::class, 'getEvents'])->name('crm.calendar.events');
+    Route::resource('crm/calendar', CrmCalendarController::class)->only(['index', 'store', 'update', 'destroy'])->names('crm.calendar');
+
+    Route::post('crm/documents/{document}/versions', [CrmDocumentController::class, 'storeVersion'])->name('crm.documents.versions.store');
+    Route::post('crm/documents/folders', [CrmDocumentController::class, 'storeFolder'])->name('crm.documents.folders.store');
+    Route::get('crm/documents/{document}/download/{version?}', [CrmDocumentController::class, 'download'])->name('crm.documents.download');
+    Route::resource('crm/documents', CrmDocumentController::class)->names('crm.documents');
+
+    Route::get('api/v1/timeline/customer/{id}', [CrmTimelineController::class, 'customerTimeline'])->name('api.timeline.customer');
+    Route::get('api/v1/timeline/lead/{id}', [CrmTimelineController::class, 'leadTimeline'])->name('api.timeline.lead');
+    Route::get('api/v1/timeline/opportunity/{id}', [CrmTimelineController::class, 'opportunityTimeline'])->name('api.timeline.opportunity');
+
     // Reserved Navigation Placeholder Routes (Sprint 21-40)
     $placeholders = [
-        // CRM Group
-        ['uri' => 'crm/activities', 'name' => 'crm.activities', 'title' => 'Activities', 'desc' => 'Record sales calls, meetings, and follow-up activities.', 'sprint' => 'Sprint 22', 'group' => 'CRM'],
-        ['uri' => 'crm/calendar', 'name' => 'crm.calendar', 'title' => 'Calendar', 'desc' => 'Interactive sales calendar and appointment scheduler.', 'sprint' => 'Sprint 22', 'group' => 'CRM'],
-        ['uri' => 'crm/tasks', 'name' => 'crm.tasks', 'title' => 'Tasks', 'desc' => 'Manage individual and team sales tasks.', 'sprint' => 'Sprint 22', 'group' => 'CRM'],
-        ['uri' => 'crm/documents', 'name' => 'crm.documents', 'title' => 'Documents', 'desc' => 'Centralized customer document repository.', 'sprint' => 'Sprint 23', 'group' => 'CRM'],
 
         // Production Group
         ['uri' => 'production/work-orders', 'name' => 'production.work-orders', 'title' => 'Work Orders', 'desc' => 'Factory floor work order execution tickets.', 'sprint' => 'Sprint 26', 'group' => 'Production'],

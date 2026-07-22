@@ -107,8 +107,6 @@ export const navigationConfig: NavGroup[] = [
                 href: '/crm/activities',
                 icon: Activity,
                 permission: 'view-activities',
-                comingSoon: true,
-                plannedSprint: 'Sprint 22',
                 description: 'Record sales calls, meetings, and follow-up activities.',
             },
             {
@@ -116,8 +114,6 @@ export const navigationConfig: NavGroup[] = [
                 href: '/crm/calendar',
                 icon: Calendar,
                 permission: 'view-calendar',
-                comingSoon: true,
-                plannedSprint: 'Sprint 22',
                 description: 'Interactive sales calendar and appointment scheduler.',
             },
             {
@@ -125,8 +121,6 @@ export const navigationConfig: NavGroup[] = [
                 href: '/crm/tasks',
                 icon: CheckSquare,
                 permission: 'view-tasks',
-                comingSoon: true,
-                plannedSprint: 'Sprint 22',
                 description: 'Manage individual and team sales tasks.',
             },
             {
@@ -134,8 +128,6 @@ export const navigationConfig: NavGroup[] = [
                 href: '/crm/documents',
                 icon: FileText,
                 permission: 'view-documents',
-                comingSoon: true,
-                plannedSprint: 'Sprint 23',
                 description: 'Centralized customer document and contract repository.',
             },
         ],

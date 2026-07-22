@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Routing\ControllerMiddlewareOptions;
 
 abstract class Controller
 {
+    use AuthorizesRequests;
+
     /**
      * The middleware registered on the controller.
      *

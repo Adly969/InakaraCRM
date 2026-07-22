@@ -5,9 +5,17 @@ namespace App\Providers;
 use App\Enums\Permission as AppPermission;
 use App\Enums\UserRole;
 use App\Listeners\AuthenticationLogger;
+use App\Models\CalendarEvent;
+use App\Models\CrmActivity;
+use App\Models\CrmDocument;
+use App\Models\CrmTask;
 use App\Models\Customer;
 use App\Models\Lead;
 use App\Models\User;
+use App\Policies\ActivityPolicy;
+use App\Policies\CalendarEventPolicy;
+use App\Policies\CrmDocumentPolicy;
+use App\Policies\CrmTaskPolicy;
 use App\Policies\CustomerPolicy;
 use App\Policies\LeadPolicy;
 use App\Policies\UserPolicy;
@@ -82,6 +90,10 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(User::class, UserPolicy::class);
         Gate::policy(Lead::class, LeadPolicy::class);
         Gate::policy(Customer::class, CustomerPolicy::class);
+        Gate::policy(CrmActivity::class, ActivityPolicy::class);
+        Gate::policy(CrmTask::class, CrmTaskPolicy::class);
+        Gate::policy(CalendarEvent::class, CalendarEventPolicy::class);
+        Gate::policy(CrmDocument::class, CrmDocumentPolicy::class);
 
         // Define foundational gates
         Gate::define('access-admin-panel', function (User $user) {

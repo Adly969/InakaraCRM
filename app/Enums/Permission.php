@@ -76,6 +76,22 @@ enum Permission: string
     case CreateOpportunities = 'create-opportunities';
     case EditOpportunities = 'edit-opportunities';
     case DeleteOpportunities = 'delete-opportunities';
+    case ViewActivities = 'view-activities';
+    case CreateActivities = 'create-activities';
+    case EditActivities = 'edit-activities';
+    case DeleteActivities = 'delete-activities';
+    case ViewTasks = 'view-tasks';
+    case CreateTasks = 'create-tasks';
+    case EditTasks = 'edit-tasks';
+    case DeleteTasks = 'delete-tasks';
+    case ViewCalendar = 'view-calendar';
+    case CreateCalendarEvents = 'create-calendar-events';
+    case EditCalendarEvents = 'edit-calendar-events';
+    case DeleteCalendarEvents = 'delete-calendar-events';
+    case ViewDocuments = 'view-documents';
+    case UploadDocuments = 'upload-documents';
+    case DeleteDocuments = 'delete-documents';
+    case ManageDocumentFolders = 'manage-document-folders';
 
     /**
      * Get the human-readable display name.
@@ -155,6 +171,22 @@ enum Permission: string
             self::CreateOpportunities => 'Create Opportunities',
             self::EditOpportunities => 'Edit Opportunities',
             self::DeleteOpportunities => 'Delete Opportunities',
+            self::ViewActivities => 'View Activities',
+            self::CreateActivities => 'Create Activities',
+            self::EditActivities => 'Edit Activities',
+            self::DeleteActivities => 'Delete Activities',
+            self::ViewTasks => 'View Tasks',
+            self::CreateTasks => 'Create Tasks',
+            self::EditTasks => 'Edit Tasks',
+            self::DeleteTasks => 'Delete Tasks',
+            self::ViewCalendar => 'View Calendar',
+            self::CreateCalendarEvents => 'Create Calendar Events',
+            self::EditCalendarEvents => 'Edit Calendar Events',
+            self::DeleteCalendarEvents => 'Delete Calendar Events',
+            self::ViewDocuments => 'View Documents',
+            self::UploadDocuments => 'Upload Documents',
+            self::DeleteDocuments => 'Delete Documents',
+            self::ManageDocumentFolders => 'Manage Document Folders',
         };
     }
 }
