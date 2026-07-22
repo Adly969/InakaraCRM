@@ -216,7 +216,7 @@ export default function DocumentsIndex({ documents, folders, filters, documentTy
                                                     <tr key={doc.id} className="hover:bg-neutral-50/50 dark:hover:bg-neutral-900/50">
                                                         <td className="px-4 py-3">
                                                             <div className="flex items-center gap-2">
-                                                                <File className="h-4 w-4 text-sky-600 flex-shrink-0" />
+                                                                <File className="h-4 w-4 text-sky-600 shrink-0" />
                                                                 <div>
                                                                     <Link href={`/crm/documents/${doc.id}`} className="font-semibold text-neutral-900 dark:text-neutral-100 hover:text-sky-600">
                                                                         {doc.title}
