@@ -66,6 +66,15 @@ class WarehouseController extends Controller
             ->with('success', 'Warehouse created successfully.');
     }
 
+    public function show(Warehouse $warehouse): Response
+    {
+        $warehouse->load(['zones.bins', 'manager']);
+
+        return Inertia::render('warehouses/show', [
+            'warehouse' => $warehouse,
+        ]);
+    }
+
     public function edit(Warehouse $warehouse): Response
     {
         $managers = User::whereHas('roles', function ($q) {

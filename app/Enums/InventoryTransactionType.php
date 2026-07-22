@@ -4,21 +4,31 @@ namespace App\Enums;
 
 enum InventoryTransactionType: string
 {
-    case Receipt = 'receipt';
-    case Issue = 'issue';
-    case AdjustmentIn = 'adjustment_in';
-    case AdjustmentOut = 'adjustment_out';
+    case GoodsReceipt = 'goods_receipt';
+    case GoodsIssue = 'goods_issue';
+    case Transfer = 'transfer';
+    case Adjustment = 'adjustment';
+    case Opname = 'opname';
 
-    /**
-     * Get the human-readable display name.
-     */
     public function label(): string
     {
         return match ($this) {
-            self::Receipt => 'Goods Receipt',
-            self::Issue => 'Goods Issue',
-            self::AdjustmentIn => 'Stock Adjustment (Addition)',
-            self::AdjustmentOut => 'Stock Adjustment (Deduction)',
+            self::GoodsReceipt => 'Goods Receipt (GRN)',
+            self::GoodsIssue => 'Goods Issue (GIN)',
+            self::Transfer => 'Stock Transfer (TRF)',
+            self::Adjustment => 'Stock Adjustment (ADJ)',
+            self::Opname => 'Stock Opname (OPN)',
+        };
+    }
+
+    public function color(): string
+    {
+        return match ($this) {
+            self::GoodsReceipt => 'emerald',
+            self::GoodsIssue => 'rose',
+            self::Transfer => 'sky',
+            self::Adjustment => 'amber',
+            self::Opname => 'purple',
         };
     }
 }

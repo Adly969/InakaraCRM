@@ -33,6 +33,9 @@ use App\Http\Controllers\ShipmentController;
 use App\Http\Controllers\StockAdjustmentController;
 use App\Http\Controllers\TenantOnboardingController;
 use App\Http\Controllers\WarehouseController;
+use App\Http\Controllers\WMS\InventoryBalanceController;
+use App\Http\Controllers\WMS\ProductController;
+use App\Http\Controllers\WMS\WarehouseTaskController;
 use App\Http\Controllers\WmsWarehouseController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -170,8 +173,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('api/v1/timeline/lead/{id}', [CrmTimelineController::class, 'leadTimeline'])->name('api.timeline.lead');
     Route::get('api/v1/timeline/opportunity/{id}', [CrmTimelineController::class, 'opportunityTimeline'])->name('api.timeline.opportunity');
 
+    // Inventory & WMS Foundation Routes (Sprint 22)
+    Route::resource('master/products', ProductController::class)->names('products');
+    Route::get('inventory', [InventoryBalanceController::class, 'index'])->name('inventory.index');
+    Route::post('inventory/tasks/{task}/complete', [WarehouseTaskController::class, 'complete'])->name('inventory.tasks.complete');
+    Route::resource('inventory/tasks', WarehouseTaskController::class)->names('inventory.tasks');
+
     // Reserved Navigation Placeholder Routes (Sprint 21-40)
     $placeholders = [
+        // Master Data Group (products active in Sprint 22)
+        ['uri' => 'master/categories', 'name' => 'master.categories', 'title' => 'Categories', 'desc' => 'Product category taxonomy and hierarchy.', 'sprint' => 'Sprint 28', 'group' => 'Master Data'],
 
         // Production Group
         ['uri' => 'production/work-orders', 'name' => 'production.work-orders', 'title' => 'Work Orders', 'desc' => 'Factory floor work order execution tickets.', 'sprint' => 'Sprint 26', 'group' => 'Production'],
@@ -207,7 +218,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ['uri' => 'reports/export', 'name' => 'reports.export', 'title' => 'Export Data', 'desc' => 'Bulk CSV / Excel data exporter for ERP data.', 'sprint' => 'Sprint 38', 'group' => 'Reports'],
 
         // Master Data Group
-        ['uri' => 'master/products', 'name' => 'master.products', 'title' => 'Products', 'desc' => 'Central product master SKU catalog.', 'sprint' => 'Sprint 28', 'group' => 'Master Data'],
         ['uri' => 'master/categories', 'name' => 'master.categories', 'title' => 'Categories', 'desc' => 'Product category taxonomy and hierarchy.', 'sprint' => 'Sprint 28', 'group' => 'Master Data'],
         ['uri' => 'master/brands', 'name' => 'master.brands', 'title' => 'Brands', 'desc' => 'Manage furniture product brand lines.', 'sprint' => 'Sprint 28', 'group' => 'Master Data'],
         ['uri' => 'master/materials', 'name' => 'master.materials', 'title' => 'Materials', 'desc' => 'Raw material grade and veneer catalog.', 'sprint' => 'Sprint 28', 'group' => 'Master Data'],

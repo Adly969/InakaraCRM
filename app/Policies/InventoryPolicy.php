@@ -2,40 +2,37 @@
 
 namespace App\Policies;
 
-use App\Models\InventoryItem;
 use App\Models\User;
 
 class InventoryPolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
     public function viewAny(User $user): bool
     {
         return $user->hasPermissionTo('view-inventory');
     }
 
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, InventoryItem $item): bool
-    {
-        return $user->hasPermissionTo('view-inventory');
-    }
-
-    /**
-     * Determine whether the user can create adjustments.
-     */
     public function adjust(User $user): bool
     {
         return $user->hasPermissionTo('adjust-inventory');
     }
 
-    /**
-     * Determine whether the user can approve adjustments.
-     */
     public function approveAdjustment(User $user): bool
     {
         return $user->hasPermissionTo('approve-inventory-adjustment');
+    }
+
+    public function transfer(User $user): bool
+    {
+        return $user->hasPermissionTo('transfer-inventory');
+    }
+
+    public function executeOpname(User $user): bool
+    {
+        return $user->hasPermissionTo('execute-stock-opname');
+    }
+
+    public function closePeriod(User $user): bool
+    {
+        return $user->hasPermissionTo('close-inventory-period');
     }
 }

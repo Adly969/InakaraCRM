@@ -92,6 +92,20 @@ enum Permission: string
     case UploadDocuments = 'upload-documents';
     case DeleteDocuments = 'delete-documents';
     case ManageDocumentFolders = 'manage-document-folders';
+    case ViewProducts = 'view-products';
+    case CreateProducts = 'create-products';
+    case EditProducts = 'edit-products';
+    case DeleteProducts = 'delete-products';
+    case ExecuteStockOpname = 'execute-stock-opname';
+    case TransferInventory = 'transfer-inventory';
+    case ExecuteWmsTasks = 'execute-wms-tasks';
+    case AssignWmsTasks = 'assign-wms-tasks';
+    case ScanBarcodes = 'scan-barcodes';
+    case ManageUomConversions = 'manage-uom-conversions';
+    case CloseInventoryPeriod = 'close-inventory-period';
+    case ManageApprovalMatrices = 'manage-approval-matrices';
+    case ManageInventoryFeatureFlags = 'manage-inventory-feature-flags';
+    case ViewInventoryAudit = 'view-inventory-audit';
 
     /**
      * Get the human-readable display name.
@@ -187,6 +201,20 @@ enum Permission: string
             self::UploadDocuments => 'Upload Documents',
             self::DeleteDocuments => 'Delete Documents',
             self::ManageDocumentFolders => 'Manage Document Folders',
+            self::ViewProducts => 'View Products',
+            self::CreateProducts => 'Create Products',
+            self::EditProducts => 'Edit Products',
+            self::DeleteProducts => 'Delete Products',
+            self::ExecuteStockOpname => 'Execute Stock Opname',
+            self::TransferInventory => 'Transfer Inventory',
+            self::ExecuteWmsTasks => 'Execute WMS Tasks',
+            self::AssignWmsTasks => 'Assign WMS Tasks',
+            self::ScanBarcodes => 'Scan Barcodes',
+            self::ManageUomConversions => 'Manage UOM Conversions',
+            self::CloseInventoryPeriod => 'Close Inventory Period',
+            self::ManageApprovalMatrices => 'Manage Approval Matrices',
+            self::ManageInventoryFeatureFlags => 'Manage Inventory Feature Flags',
+            self::ViewInventoryAudit => 'View Inventory Audit',
         };
     }
 }

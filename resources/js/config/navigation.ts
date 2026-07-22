@@ -479,10 +479,7 @@ export const navigationConfig: NavGroup[] = [
                 title: 'Products',
                 href: '/master/products',
                 icon: PackageSearch,
-                permission: 'manage-master-data',
-                comingSoon: true,
-                plannedSprint: 'Sprint 28',
-                description: 'Central product master SKU catalog.',
+                permission: 'view-products',
             },
             {
                 title: 'Categories',

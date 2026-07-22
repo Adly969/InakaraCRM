@@ -11,14 +11,20 @@ use App\Models\CrmDocument;
 use App\Models\CrmTask;
 use App\Models\Customer;
 use App\Models\Lead;
+use App\Models\Product;
 use App\Models\User;
+use App\Models\Warehouse;
+use App\Models\WarehouseTask;
 use App\Policies\ActivityPolicy;
 use App\Policies\CalendarEventPolicy;
 use App\Policies\CrmDocumentPolicy;
 use App\Policies\CrmTaskPolicy;
 use App\Policies\CustomerPolicy;
 use App\Policies\LeadPolicy;
+use App\Policies\ProductPolicy;
 use App\Policies\UserPolicy;
+use App\Policies\WarehousePolicy;
+use App\Policies\WarehouseTaskPolicy;
 use App\Repositories\FinancialEventRepository;
 use App\Repositories\FinancialEventRepositoryInterface;
 use Carbon\CarbonImmutable;
@@ -94,6 +100,9 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(CrmTask::class, CrmTaskPolicy::class);
         Gate::policy(CalendarEvent::class, CalendarEventPolicy::class);
         Gate::policy(CrmDocument::class, CrmDocumentPolicy::class);
+        Gate::policy(Warehouse::class, WarehousePolicy::class);
+        Gate::policy(Product::class, ProductPolicy::class);
+        Gate::policy(WarehouseTask::class, WarehouseTaskPolicy::class);
 
         // Define foundational gates
         Gate::define('access-admin-panel', function (User $user) {
